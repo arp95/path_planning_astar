@@ -25,7 +25,7 @@ python astar_rigid.py
 
 ### Results
 
-![alt text](https://github.com/arp95/path_planning_astar/screen.jpg)
+!![Screenshot](screen.jpg)
 
 
 ### Software Required
