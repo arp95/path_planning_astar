@@ -25,7 +25,8 @@ python astar_rigid.py
 
 ### Results
 
-!![Screenshot](screen.jpg)
+Comparison of Algorithms, A-star and Dijkstra (blue are the explored region):
+![Screenshot](screen.jpg)
 
 
 ### Software Required
