@@ -38,6 +38,7 @@ class AStar(object):
         self.numCols = 300
         self.clearance = clearance
         self.radius = radius
+        self.graph = {}
         self.distance = {}
         self.path = {}
         self.costToCome = {}
@@ -48,6 +49,7 @@ class AStar(object):
             for col in range(1, self.numCols + 1):
                 self.visited[(row, col)] = False
                 self.path[(row, col)] = -1
+                self.graph[(row, col)] = [1, 1, 1, 1, 1.414, 1.414, 1.414, 1.414]
                 self.costToCome[(row, col)] = float('inf')
                 self.costToGo[(row, col)] = float('inf')
                 self.distance[(row, col)] = float('inf')
@@ -256,7 +258,7 @@ class AStar(object):
                
             # traverse the edges
             if(self.ActionMoveLeft(current_node[0], current_node[1])):
-                new_cost_to_come = self.costToCome[current_node] + 1
+                new_cost_to_come = self.costToCome[current_node] + self.graph[current_node][0]
                 new_cost_to_go = self.euc_heuristic(current_node[0], current_node[1] - 1)
                 new_distance = new_cost_to_come + new_cost_to_go
                 
@@ -268,7 +270,7 @@ class AStar(object):
                     heappush(queue, (new_distance, (current_node[0], current_node[1] - 1)))
             
             if(self.ActionMoveRight(current_node[0], current_node[1])):
-                new_cost_to_come = self.costToCome[current_node] + 1
+                new_cost_to_come = self.costToCome[current_node] + self.graph[current_node][1]
                 new_cost_to_go = self.euc_heuristic(current_node[0], current_node[1] + 1)
                 new_distance = new_cost_to_come + new_cost_to_go
                 
@@ -280,7 +282,7 @@ class AStar(object):
                     heappush(queue, (new_distance, (current_node[0], current_node[1] + 1)))
                     
             if(self.ActionMoveUp(current_node[0], current_node[1])):
-                new_cost_to_come = self.costToCome[current_node] + 1
+                new_cost_to_come = self.costToCome[current_node] + self.graph[current_node][2]
                 new_cost_to_go = self.euc_heuristic(current_node[0] - 1, current_node[1])
                 new_distance = new_cost_to_come + new_cost_to_go
                 
@@ -292,7 +294,7 @@ class AStar(object):
                     heappush(queue, (new_distance, (current_node[0] - 1, current_node[1])))
                     
             if(self.ActionMoveDown(current_node[0], current_node[1])):
-                new_cost_to_come = self.costToCome[current_node] + 1
+                new_cost_to_come = self.costToCome[current_node] + self.graph[current_node][3]
                 new_cost_to_go = self.euc_heuristic(current_node[0] + 1, current_node[1])
                 new_distance = new_cost_to_come + new_cost_to_go
                 
@@ -304,7 +306,7 @@ class AStar(object):
                     heappush(queue, (new_distance, (current_node[0] + 1, current_node[1])))
                     
             if(self.ActionMoveRightDown(current_node[0], current_node[1])):
-                new_cost_to_come = self.costToCome[current_node] + 1.4142
+                new_cost_to_come = self.costToCome[current_node] + self.graph[current_node][4]
                 new_cost_to_go = self.euc_heuristic(current_node[0] + 1, current_node[1] + 1)
                 new_distance = new_cost_to_come + new_cost_to_go
                 
@@ -316,7 +318,7 @@ class AStar(object):
                     heappush(queue, (new_distance, (current_node[0] + 1, current_node[1] + 1)))
                     
             if(self.ActionMoveRightUp(current_node[0], current_node[1])):
-                new_cost_to_come = self.costToCome[current_node] + 1.4142
+                new_cost_to_come = self.costToCome[current_node] + self.graph[current_node][5]
                 new_cost_to_go = self.euc_heuristic(current_node[0] - 1, current_node[1] + 1)
                 new_distance = new_cost_to_come + new_cost_to_go
                 
@@ -328,7 +330,7 @@ class AStar(object):
                     heappush(queue, (new_distance, (current_node[0] - 1, current_node[1] + 1)))
                     
             if(self.ActionMoveLeftUp(current_node[0], current_node[1])):
-                new_cost_to_come = self.costToCome[current_node] + 1.4142
+                new_cost_to_come = self.costToCome[current_node] + self.graph[current_node][6]
                 new_cost_to_go = self.euc_heuristic(current_node[0] - 1, current_node[1] - 1)
                 new_distance = new_cost_to_come + new_cost_to_go
                 
@@ -340,7 +342,7 @@ class AStar(object):
                     heappush(queue, (new_distance, (current_node[0] - 1, current_node[1] - 1)))
                     
             if(self.ActionMoveLeftDown(current_node[0], current_node[1])):
-                new_cost_to_come = self.costToCome[current_node] + 1.4142
+                new_cost_to_come = self.costToCome[current_node] + self.graph[current_node][7]
                 new_cost_to_go = self.euc_heuristic(current_node[0] + 1, current_node[1] - 1)
                 new_distance = new_cost_to_come + new_cost_to_go
                 
