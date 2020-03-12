@@ -3,6 +3,7 @@
 [![Packagist](https://img.shields.io/packagist/l/doctrine/orm.svg)](LICENSE.md)
 ---
 
+
 ### Author
 Arpit Aggarwal
 
@@ -27,6 +28,12 @@ python astar_rigid.py
 
 Comparison of Algorithms, A-star and Dijkstra (blue are the explored region):
 ![Screenshot](screen.jpg)
+
+A-star algorithm using Eucledian Heuristic:
+![Screenshot](screen1.jpg)
+
+A-star algorithm using Diagonal Heuristic:
+![Screenshot](screen2.jpg)
 
 
 ### Software Required
