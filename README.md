@@ -29,10 +29,10 @@ python astar_rigid.py
 Comparison of Algorithms, A-star and Dijkstra (blue are the explored region):
 ![Screenshot](screen.jpg)
 
-A-star algorithm using Eucledian Heuristic:
+A-star algorithm using Eucledian Heuristic:<br>
 ![Screenshot](screen1.jpg)
 
-A-star algorithm using Diagonal Heuristic:
+A-star algorithm using Diagonal Heuristic:<br>
 ![Screenshot](screen2.jpg)
 
 
