@@ -11,16 +11,9 @@ Arpit Aggarwal
 ### Instructions for running the code
 To run the code for finding the path, follow the following commands:
 
-
 ```
 cd Code
-python astar_point.py
-```
-
-
-```
-cd Code
-python astar_rigid.py
+python astar.py
 ```
 
 
