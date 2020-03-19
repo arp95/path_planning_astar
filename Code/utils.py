@@ -235,11 +235,11 @@ class AStar(object):
         out.release()
     
     # diagonal heuristic
-    def diagonal_heuristic(self, row, col):
-        return max(np.abs(self.goal[0] - row) / self.stepSize, np.abs(self.goal[1] - col) / self.stepSize)
+    def diagonal_heuristic(self, row, col, weight = 1.0):
+        return weight * max(np.abs(self.goal[0] - row) / self.stepSize, np.abs(self.goal[1] - col) / self.stepSize)
 
     # euc heuristic
-    def euc_heuristic(self, row, col, weight = 1):
+    def euc_heuristic(self, row, col, weight = 1.0):
         return weight * np.sqrt((((self.goal[0] - row) / self.stepSize)**2) + (((self.goal[1] - col) / self.stepSize)**2))
     
     # a-star algo
@@ -250,12 +250,12 @@ class AStar(object):
         self.costToCome[self.start] = 0
         self.costToGo[self.start] = self.euc_heuristic(self.start[0], self.start[1])
         self.distance[self.start] = self.costToCome[self.start] + self.costToGo[self.start]
-        heappush(queue, (self.distance[self.start], self.start))
+        heappush(queue, (self.distance[self.start], self.costToCome[self.start], self.start))
         
         # run a-star
         while(len(queue) > 0):
             # get current node
-            _, currentNode = heappop(queue)
+            _, _, currentNode = heappop(queue)
             self.visited[currentNode] = True
             exploredStates.append(currentNode)
             
@@ -267,42 +267,42 @@ class AStar(object):
             if(self.ActionMoveLeft(currentNode[0], currentNode[1])):
                 updateHeap = self.UpdateAction(currentNode, self.graph[currentNode][0], currentNode[0], currentNode[1] - self.stepSize)
                 if(updateHeap):
-                    heappush(queue, (self.distance[(currentNode[0], currentNode[1] - self.stepSize)], (currentNode[0], currentNode[1] - self.stepSize)))
+                    heappush(queue, (self.distance[(currentNode[0], currentNode[1] - self.stepSize)], self.costToCome[(currentNode[0], currentNode[1] - self.stepSize)], (currentNode[0], currentNode[1] - self.stepSize)))
             
             if(self.ActionMoveRight(currentNode[0], currentNode[1])):
                 updateHeap = self.UpdateAction(currentNode, self.graph[currentNode][1], currentNode[0], currentNode[1] + self.stepSize)
                 if(updateHeap):
-                    heappush(queue, (self.distance[(currentNode[0], currentNode[1] + self.stepSize)], (currentNode[0], currentNode[1] + self.stepSize)))
+                    heappush(queue, (self.distance[(currentNode[0], currentNode[1] + self.stepSize)], self.costToCome[(currentNode[0], currentNode[1] + self.stepSize)], (currentNode[0], currentNode[1] + self.stepSize)))
                     
             if(self.ActionMoveUp(currentNode[0], currentNode[1])):
                 updateHeap = self.UpdateAction(currentNode, self.graph[currentNode][2], currentNode[0] - self.stepSize, currentNode[1])
                 if(updateHeap):
-                    heappush(queue, (self.distance[(currentNode[0] - self.stepSize, currentNode[1])], (currentNode[0] - self.stepSize, currentNode[1])))
+                    heappush(queue, (self.distance[(currentNode[0] - self.stepSize, currentNode[1])], self.costToCome[(currentNode[0] - self.stepSize, currentNode[1])], (currentNode[0] - self.stepSize, currentNode[1])))
                     
             if(self.ActionMoveDown(currentNode[0], currentNode[1])):
                 updateHeap = self.UpdateAction(currentNode, self.graph[currentNode][3], currentNode[0] + self.stepSize, currentNode[1])
                 if(updateHeap):
-                    heappush(queue, (self.distance[(currentNode[0] + self.stepSize, currentNode[1])], (currentNode[0] + self.stepSize, currentNode[1])))
+                    heappush(queue, (self.distance[(currentNode[0] + self.stepSize, currentNode[1])], self.costToCome[(currentNode[0] + self.stepSize, currentNode[1])], (currentNode[0] + self.stepSize, currentNode[1])))
                     
             if(self.ActionMoveRightDown(currentNode[0], currentNode[1])):
                 updateHeap = self.UpdateAction(currentNode, self.graph[currentNode][4], currentNode[0] + self.stepSize, currentNode[1] + self.stepSize)
                 if(updateHeap):
-                    heappush(queue, (self.distance[(currentNode[0] + self.stepSize, currentNode[1] + self.stepSize)], (currentNode[0] + self.stepSize, currentNode[1] + self.stepSize)))
+                    heappush(queue, (self.distance[(currentNode[0] + self.stepSize, currentNode[1] + self.stepSize)], self.costToCome[(currentNode[0] + self.stepSize, currentNode[1] + self.stepSize)], (currentNode[0] + self.stepSize, currentNode[1] + self.stepSize)))
                     
             if(self.ActionMoveRightUp(currentNode[0], currentNode[1])):
                 updateHeap = self.UpdateAction(currentNode, self.graph[currentNode][5], currentNode[0] - self.stepSize, currentNode[1] + self.stepSize)
                 if(updateHeap):
-                    heappush(queue, (self.distance[(currentNode[0] - self.stepSize, currentNode[1] + self.stepSize)], (currentNode[0] - self.stepSize, currentNode[1] + self.stepSize)))
+                    heappush(queue, (self.distance[(currentNode[0] - self.stepSize, currentNode[1] + self.stepSize)], self.costToCome[(currentNode[0] - self.stepSize, currentNode[1] + self.stepSize)], (currentNode[0] - self.stepSize, currentNode[1] + self.stepSize)))
                     
             if(self.ActionMoveLeftUp(currentNode[0], currentNode[1])):
                 updateHeap = self.UpdateAction(currentNode, self.graph[currentNode][6], currentNode[0] - self.stepSize, currentNode[1] - self.stepSize)
                 if(updateHeap):
-                    heappush(queue, (self.distance[(currentNode[0] - self.stepSize, currentNode[1] - self.stepSize)], (currentNode[0] - self.stepSize, currentNode[1] - self.stepSize)))
+                    heappush(queue, (self.distance[(currentNode[0] - self.stepSize, currentNode[1] - self.stepSize)], self.costToCome[(currentNode[0] - self.stepSize, currentNode[1] - self.stepSize)], (currentNode[0] - self.stepSize, currentNode[1] - self.stepSize)))
                     
             if(self.ActionMoveLeftDown(currentNode[0], currentNode[1])):
                 updateHeap = self.UpdateAction(currentNode, self.graph[currentNode][7], currentNode[0] + self.stepSize, currentNode[1] - self.stepSize)
                 if(updateHeap):
-                    heappush(queue, (self.distance[(currentNode[0] + self.stepSize, currentNode[1] - self.stepSize)], (currentNode[0] + self.stepSize, currentNode[1] - self.stepSize)))
+                    heappush(queue, (self.distance[(currentNode[0] + self.stepSize, currentNode[1] - self.stepSize)], self.costToCome[(currentNode[0] + self.stepSize, currentNode[1] - self.stepSize)], (currentNode[0] + self.stepSize, currentNode[1] - self.stepSize)))
                     
         # return if no optimal path
         if(self.distance[self.goal] == float('inf')):
