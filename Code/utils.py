@@ -239,8 +239,8 @@ class AStar(object):
         return max(np.abs(self.goal[0] - row) / self.stepSize, np.abs(self.goal[1] - col) / self.stepSize)
 
     # euc heuristic
-    def euc_heuristic(self, row, col):
-        return np.sqrt((((self.goal[0] - row) / self.stepSize)**2) + (((self.goal[1] - col) / self.stepSize)**2))
+    def euc_heuristic(self, row, col, weight = 1):
+        return weight * np.sqrt((((self.goal[0] - row) / self.stepSize)**2) + (((self.goal[1] - col) / self.stepSize)**2))
     
     # a-star algo
     def search(self):
